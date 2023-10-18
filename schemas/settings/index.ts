@@ -69,7 +69,6 @@ export default defineType({
           name: 'title',
           title: 'Title',
           type: 'string',
-          initialValue: demo.ogImageTitle,
         }),
       ],
     }),
