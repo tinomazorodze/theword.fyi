@@ -18,6 +18,7 @@
     "@next/env": "^13.5.5",
     "@portabletext/react": "3.0.11",
     "@sanity/client": "6.5.0",
+    "@sanity/dashboard": "^3.1.5",
     "@sanity/icons": "^2.5.0",
     "@sanity/image-url": "1.0.2",
     "@sanity/ui": "^1.8.2",
@@ -34,6 +35,7 @@
     "sanity": "3.18.0",
     "sanity-plugin-asset-source-unsplash": "1.1.1",
     "sanity-plugin-iframe-pane": "2.5.8",
+    "sanity-plugin-media": "^2.2.2",
     "satori": "^0.10.9",
     "styled-components": "5.3.11",
     "swr": "2.2.4"

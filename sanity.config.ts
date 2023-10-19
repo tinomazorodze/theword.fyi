@@ -2,6 +2,7 @@
  * This config is used to set up Sanity Studio that's mounted on the `/pages/studio/[[...index]].tsx` route
  */
 
+import { dashboardTool, projectInfoWidget, projectUsersWidget } from '@sanity/dashboard'
 import { visionTool } from '@sanity/vision'
 import {
   apiVersion,
@@ -19,6 +20,9 @@ import { previewUrl } from 'sanity-plugin-iframe-pane/preview-url'
 import authorType from 'schemas/author'
 import postType from 'schemas/post'
 import settingsType from 'schemas/settings'
+import { media } from 'sanity-plugin-media'
+import StudioLogo from './sanity/components/studio-header'
+
 
 const title =
   process.env.NEXT_PUBLIC_SANITY_PROJECT_TITLE || 'Next.js Blog with Sanity.io'
@@ -33,11 +37,18 @@ export default defineConfig({
     types: [authorType, postType, settingsType],
   },
   plugins: [
+    dashboardTool({
+      widgets: [
+        projectInfoWidget(),
+        projectUsersWidget(),
+      ],
+    }),
     deskTool({
       structure: settingsStructure(settingsType),
       // `defaultDocumentNode` is responsible for adding a “Preview” tab to the document pane
       defaultDocumentNode: previewDocumentNode(),
     }),
+    media(),
     // Configures the global "new document" button, and document actions, to suit the Settings document singleton
     settingsPlugin({ type: settingsType.name }),
     // Add the "Open preview" action
@@ -52,4 +63,9 @@ export default defineConfig({
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
   ],
+  studio: {
+    components: {
+      logo: StudioLogo,
+    },
+  },
 })

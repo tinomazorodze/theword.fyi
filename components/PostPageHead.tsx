@@ -25,6 +25,53 @@ export default function PostPageHead({ settings, post }: PostPageHeadProps) {
             .url()}
         />
       )}
+      <script
+        key="website-structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            {
+              '@context': 'https://schema.org',
+              '@type': 'Article',
+              mainEntityOfPage: {
+                '@type': 'WebPage',
+                '@id': `/posts/${post.slug}`,
+                name: post.title,
+                url: `/posts/${post.slug}`
+              },
+              headline: post.title,
+              description: post.excerpt,
+              image: {
+                '@type': 'ImageObject',
+                url: urlForImage(post.coverImage)
+                  .width(1200)
+                  .height(627)
+                  .fit('crop')
+                  .url(),
+                height: 627,
+                width: 1200,
+              },
+              datePublished: post._createdAt,
+              dateModified: post._updatedAt,
+
+              publisher: {
+                '@type': 'Person',
+                name: post.author.name,
+                image: {
+                  '@type': 'ImageObject',
+                  url: urlForImage(post.author.picture)
+                    .width(1200)
+                    .height(627)
+                    .fit('crop')
+                    .url(),
+                  width: 300,
+                  height: 300,
+                },
+              },
+            }
+          )
+        }}
+      />
     </Head>
   )
 }

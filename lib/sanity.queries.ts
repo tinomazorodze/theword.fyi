@@ -51,6 +51,7 @@ export interface Post {
   coverImage?: any
   date?: string
   _updatedAt?: string
+  _createdAt?: string
   excerpt?: string
   author?: Author
   slug?: string
