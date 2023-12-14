@@ -8,17 +8,17 @@ import {
   dataset,
   DRAFT_MODE_ROUTE,
   projectId,
-} from 'lib/sanity.api'
-import { locate } from 'plugins/locate'
-import { previewDocumentNode } from 'plugins/previewPane'
-import { settingsPlugin, settingsStructure } from 'plugins/settings'
+} from 'src/lib/sanity.api'
+import { locate } from 'src/plugins/locate'
+import { previewDocumentNode } from 'src/plugins/previewPane'
+import { settingsPlugin, settingsStructure } from 'src/plugins/settings'
 import { defineConfig } from 'sanity'
 import { deskTool } from 'sanity/desk'
 import { presentationTool } from 'sanity/presentation'
 import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash'
-import authorType from 'schemas/author'
-import postType from 'schemas/post'
-import settingsType from 'schemas/settings'
+import authorType from 'src/schemas/author'
+import postType from 'src/schemas/post'
+import settingsType from 'src/schemas/settings'
 
 const title =
   process.env.NEXT_PUBLIC_SANITY_PROJECT_TITLE || 'Next.js Blog with Sanity.io'
