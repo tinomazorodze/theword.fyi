@@ -11,12 +11,10 @@ export default function MoreStories({ posts }: { posts: Post[] }) {
         {posts.map((post) => (
           <PostPreview
             key={post._id}
-            title={post.title}
-            coverImage={post.coverImage}
-            date={post.date}
             author={post.author}
             slug={post.slug}
-            excerpt={post.excerpt}
+            seo={post.seo}
+            _updatedAt={post._updatedAt}
           />
         ))}
       </div>

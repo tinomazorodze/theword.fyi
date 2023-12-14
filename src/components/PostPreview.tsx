@@ -5,11 +5,9 @@ import type { Post } from 'src/lib/sanity.queries'
 import Link from 'next/link'
 
 export default function PostPreview({
-  title,
-  coverImage,
-  date,
-  excerpt,
   author,
+  seo,
+  _updatedAt,
   slug,
 }: Omit<Post, '_id'>) {
   return (
@@ -17,20 +15,20 @@ export default function PostPreview({
       <div className="mb-5">
         <CoverImage
           slug={slug}
-          title={title}
-          image={coverImage}
+          title={seo.title}
+          image={seo.image}
           priority={false}
         />
       </div>
       <h3 className="mb-3 text-3xl leading-snug">
         <Link href={`/posts/${slug}`} className="hover:underline">
-          {title}
+          {seo.title}
         </Link>
       </h3>
       <div className="mb-4 text-lg">
-        <Date dateString={date} />
+        <Date dateString={_updatedAt} />
       </div>
-      {excerpt && <p className="mb-4 text-lg leading-relaxed">{excerpt}</p>}
+      {seo.description && <p className="mb-4 text-lg leading-relaxed">{seo.description}</p>}
       {author && <Avatar name={author.name} picture={author.picture} />}
     </div>
   )

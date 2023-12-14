@@ -2,11 +2,10 @@ import { groq } from 'next-sanity'
 
 const postFields = groq`
   _id,
-  title,
-  date,
+  name,
   _updatedAt,
-  excerpt,
-  coverImage,
+  _createdAt,
+  seo,
   "slug": slug.current,
   "author": author->{name, picture},
 `
@@ -47,11 +46,18 @@ export interface Author {
 
 export interface Post {
   _id: string
-  title?: string
-  coverImage?: any
-  date?: string
+  name?: string
+  seo?: {
+    title: string;
+    description: string;
+    image: {
+      asset: {
+        _ref: string;
+      };
+    };
+  };
   _updatedAt?: string
-  excerpt?: string
+  _createdAt?: string
   author?: Author
   slug?: string
   content?: any

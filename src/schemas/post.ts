@@ -7,9 +7,9 @@ import authorType from './author'
 /**
  * This file is the schema definition for a post.
  *
- * Here you'll be able to edit the different fields that appear when you 
+ * Here you'll be able to edit the different fields that appear when you
  * create or edit a post in the studio.
- * 
+ *
  * Here you can see the different schema types that are available:
 
   https://www.sanity.io/docs/schema-types
@@ -22,23 +22,58 @@ export default defineType({
   icon: BookIcon,
   type: 'document',
   fields: [
-    defineField({
-      name: 'title',
-      title: 'Title',
+    {
+      name: 'name',
+      title: 'Name',
       type: 'string',
-      validation: (rule) => rule.required(),
-    }),
+      description: 'A short name resembles the article'
+    },
     defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
       options: {
-        source: 'title',
+        source: 'name',
         maxLength: 96,
         isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (rule) => rule.required(),
     }),
+    {
+      name: 'seo',
+      type: 'object',
+      title: 'SEO',
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+      fields: [
+        {
+          name: 'title',
+          title: 'Title',
+          type: 'string',
+          validation: (Rule) =>
+            Rule.max(70).warning('Longer titles may be truncated by search engines'),
+        },
+        {
+          name: 'description',
+          title: 'Description',
+          type: 'text',
+          rows: 2,
+          validation: (Rule) =>
+            Rule.max(160).warning('Longer descriptions may be truncated by search engines'),
+        },
+        {
+          name: 'image',
+          type: 'image',
+          title: 'Image',
+          description: 'Image should have a minimum of 1280x720 pixels (16:9)',
+          options: {
+            hotspot: true,
+          },
+        },
+      ]
+    },
     defineField({
       name: 'content',
       title: 'Content',
@@ -68,25 +103,6 @@ export default defineType({
       ],
     }),
     defineField({
-      name: 'excerpt',
-      title: 'Excerpt',
-      type: 'text',
-    }),
-    defineField({
-      name: 'coverImage',
-      title: 'Cover Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    }),
-    defineField({
-      name: 'date',
-      title: 'Date',
-      type: 'datetime',
-      initialValue: () => new Date().toISOString(),
-    }),
-    defineField({
       name: 'author',
       title: 'Author',
       type: 'reference',
@@ -95,10 +111,10 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: 'title',
+      title: 'name',
       author: 'author.name',
-      date: 'date',
-      media: 'coverImage',
+      date: '_updatedAt',
+      media: 'seo.image',
     },
     prepare({ title, media, author, date }) {
       const subtitles = [
