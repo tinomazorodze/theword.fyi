@@ -2,27 +2,23 @@
  * This config is used to set up Sanity Studio that's mounted on the `/pages/studio/[[...index]].tsx` route
  */
 
-import { dashboardTool, projectInfoWidget, projectUsersWidget } from '@sanity/dashboard'
 import { visionTool } from '@sanity/vision'
 import {
   apiVersion,
   dataset,
   DRAFT_MODE_ROUTE,
-  previewSecretId,
   projectId,
 } from 'lib/sanity.api'
+import { locate } from 'plugins/locate'
 import { previewDocumentNode } from 'plugins/previewPane'
 import { settingsPlugin, settingsStructure } from 'plugins/settings'
 import { defineConfig } from 'sanity'
 import { deskTool } from 'sanity/desk'
+import { presentationTool } from 'sanity/presentation'
 import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash'
-import { previewUrl } from 'sanity-plugin-iframe-pane/preview-url'
 import authorType from 'schemas/author'
 import postType from 'schemas/post'
 import settingsType from 'schemas/settings'
-import { media } from 'sanity-plugin-media'
-import StudioLogo from './sanity/components/studio-header'
-
 
 const title =
   process.env.NEXT_PUBLIC_SANITY_PROJECT_TITLE || 'Next.js Blog with Sanity.io'
@@ -37,35 +33,25 @@ export default defineConfig({
     types: [authorType, postType, settingsType],
   },
   plugins: [
-    dashboardTool({
-      widgets: [
-        projectInfoWidget(),
-        projectUsersWidget(),
-      ],
-    }),
     deskTool({
       structure: settingsStructure(settingsType),
       // `defaultDocumentNode` is responsible for adding a “Preview” tab to the document pane
       defaultDocumentNode: previewDocumentNode(),
     }),
-    media(),
+    presentationTool({
+      locate,
+      previewUrl: {
+        draftMode: {
+          enable: DRAFT_MODE_ROUTE,
+        },
+      },
+    }),
     // Configures the global "new document" button, and document actions, to suit the Settings document singleton
     settingsPlugin({ type: settingsType.name }),
-    // Add the "Open preview" action
-    previewUrl({
-      base: DRAFT_MODE_ROUTE,
-      urlSecretId: previewSecretId,
-      matchTypes: [postType.name, settingsType.name],
-    }),
     // Add an image asset source for Unsplash
     unsplashImageAsset(),
     // Vision lets you query your content with GROQ in the studio
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
   ],
-  studio: {
-    components: {
-      logo: StudioLogo,
-    },
-  },
 })
